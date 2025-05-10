@@ -46,9 +46,6 @@ include 'includes/cauhinh.php';
                 <a href="index.php" class="d-block me-2">
                     <img src="images/logo.png" alt="Blue Eagle" style="height: 100px;">
                 </a>
-                <div class="text-white">
-                    <h4 class="mb-0 fw-bold">BLUE EAGLE SHOES</h4>
-                </div>
             </div>
 
             <!-- Tìm kiếm -->

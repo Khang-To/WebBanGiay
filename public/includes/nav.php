@@ -8,7 +8,7 @@ include 'includes/cauhinh.php';
 
         <!-- GIÀY BÓNG ĐÁ Dropdown -->
         <div class="dropdown me-2">
-            <a class="dropdown-toggle text-white text-decoration-none" href="#" role="button" id="tatCa" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="dropdown-toggle text-white text-decoration-none" href="#" role="button" id="loaiGiay" data-bs-toggle="dropdown" aria-expanded="false">
                 GIÀY BÓNG ĐÁ
             </a>
             <ul class="dropdown-menu">
@@ -24,7 +24,7 @@ include 'includes/cauhinh.php';
 
         <!-- THƯƠNG HIỆU Dropdown -->
         <div class="dropdown me-2">
-            <a class="dropdown-toggle text-white text-decoration-none" href="#" role="button" id="tatCa" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="dropdown-toggle text-white text-decoration-none" href="#" role="button" id="thuongHieu" data-bs-toggle="dropdown" aria-expanded="false">
                 THƯƠNG HIỆU
             </a>
             <ul class="dropdown-menu">
@@ -47,7 +47,10 @@ include 'includes/cauhinh.php';
     </div>
 </nav>
 <script>
-    document.getElementById('tatCa').addEventListener('click', function (e) {
+    document.getElementById('thuongHieu').addEventListener('click', function (e) {
+        window.location.href = 'giay.php';
+    });
+    document.getElementById('loaiGiay').addEventListener('click', function (e) {
         window.location.href = 'giay.php';
     });
 </script>

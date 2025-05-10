@@ -1,11 +1,4 @@
 <?php
-
-function to_filename($str) {
-    $str = strtolower(trim($str));
-    $str = preg_replace('/[^a-z0-9]/', '_', $str);
-    return $str;
-}
-
 include 'cauhinh.php';
 
 $sql = "SELECT * FROM thuong_hieu";

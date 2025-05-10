@@ -24,6 +24,7 @@
     <?php include 'includes/header.php'; ?>
     <?php include 'includes/nav.php'; ?>
     <?php include 'includes/banner.php'; ?>
+    <?php include 'includes/loaigiay.php'; ?>
     <?php include 'includes/thuonghieu.php'; ?>
     <?php include 'includes/footer.php'; ?>
 </body>
