@@ -13,28 +13,29 @@ include 'includes/cauhinh.php';
 
             <!-- Dropdown tài khoản -->
             <div class="dropdown">
-                <a class="dropdown-toggle text-white text-decoration-none" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-person"></i>
-                    <?php
-                    if (isset($_SESSION['taikhoan'])) {
-                        echo "Xin chào: " . (!empty($_SESSION['ho_ten']) ? htmlspecialchars($_SESSION['ho_ten']) : htmlspecialchars($_SESSION['taikhoan']));
-                    } else {
-                        echo "Tài khoản";
-                    }
-                    ?>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <?php if (isset($_SESSION['taikhoan'])): ?>
-                        <li><a class="dropdown-item text-danger" href="dangxuat.php">Đăng xuất</a></li>
-                        <li><a class="dropdown-item" href="giohang.php">Giỏ hàng</a></li>
-                        <li><a class="dropdown-item" href="thanhtoan.php">Thanh toán</a></li>
-                        <li><a class="dropdown-item" href="tracuu.php">Tra cứu đơn hàng</a></li>
-                    <?php else: ?>
-                        <li><a class="dropdown-item" href="dangky.php">Đăng ký</a></li>
-                        <li><a class="dropdown-item" href="dangnhap.php">Đăng nhập</a></li>
-                    <?php endif; ?>
-                </ul>
-            </div>
+    <a class="dropdown-toggle text-white text-decoration-none" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-person"></i>
+        <?php
+        if (isset($_SESSION['taikhoan']) && is_array($_SESSION['taikhoan'])) {
+            echo "Xin chào: " . htmlspecialchars($_SESSION['taikhoan']['ho_ten']);
+        } else {
+            echo "Tài khoản";
+        }
+        ?>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end">
+        <?php if (isset($_SESSION['taikhoan']) && is_array($_SESSION['taikhoan'])): ?>
+            <li><a class="dropdown-item text-danger" href="dangxuat.php">Đăng xuất</a></li>
+            <li><a class="dropdown-item" href="giohang.php">Giỏ hàng</a></li>
+            <li><a class="dropdown-item" href="thanhtoan.php">Thanh toán</a></li>
+            <li><a class="dropdown-item" href="tracuu.php">Tra cứu đơn hàng</a></li>
+        <?php else: ?>
+            <li><a class="dropdown-item" href="dangky.php">Đăng ký</a></li>
+            <li><a class="dropdown-item" href="dangnhap.php">Đăng nhập</a></li>
+        <?php endif; ?>
+    </ul>
+</div>
+
         </div>
     </div>
 
@@ -59,11 +60,21 @@ include 'includes/cauhinh.php';
                 <a href="<?php echo isset($_SESSION['taikhoan']) ? 'hoso.php' : 'dangnhap.php'; ?>" class="text-white text-decoration-none">
                     <i class="bi bi-person"></i>
                 </a>
-                <a href="gio_hang.php" class="text-white position-relative">
+                <a href="giohang.php" class="text-white position-relative">
                     <i class="bi bi-cart fs-5"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        0
-                    </span>
+                    <?php
+                        $tong_so_luong = 0;
+                        if (!empty($_SESSION['giohang'])) {
+                            foreach ($_SESSION['giohang'] as $sp) {
+                                if (isset($sp['so_luong'])) {
+                                    $tong_so_luong += $sp['so_luong'];
+                                }
+                            }
+                        }
+                        ?>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            <?= $tong_so_luong ?>
+                        </span>
                 </a>
             </div>
         </div>

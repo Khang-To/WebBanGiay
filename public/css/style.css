@@ -5,6 +5,26 @@
     font-size: 0.9rem;
 }
 
+.bg-gradient-gray-black {
+    background: linear-gradient(to top, #303438, #000000); /* từ xám (Bootstrap secondary) đến đen */
+    color: white; /* chữ trắng cho dễ đọc */
+}
+
+/* nut top */ 
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: none;
+    z-index: 999;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    font-size: 1.5rem;
+    align-items: center;
+    justify-content: center;
+}
+
 /* Header chính */
 .main-header {
     background-color: #2a2a2a;
@@ -101,14 +121,6 @@ input::placeholder {
     text-decoration: none;
 }
 
-.brand-card {
-    position: relative;
-    transition: transform 0.3s ease;
-    overflow: hidden;
-    border: none;
-    border-radius: 10px;
-}
-
 .brand-card:hover {
     transform: scale(1.02);
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
@@ -122,7 +134,7 @@ input::placeholder {
 .brand-card {
     position: relative;
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 0px;
     border: 1px solid rgba(255, 255, 255, 0.2); /* viền mờ trắng */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* đổ bóng nhẹ */
     transition: transform 0.3s ease, box-shadow 0.3s ease;

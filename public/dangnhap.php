@@ -17,7 +17,7 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-<body class="bg-light">
+<body class="bg-gradient-gray-black">
     <div class="wrapper d-flex flex-column min-vh-100">
         <?php include 'includes/header.php'; ?>
         <?php include 'includes/nav.php'; ?>

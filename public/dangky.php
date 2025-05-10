@@ -17,7 +17,7 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-<body class="bg-light">
+<body class="bg-gradient-gray-black">
     <?php include 'includes/header.php'; ?>
     <?php include 'includes/nav.php'; ?>
 <div class="container mt-5 pb-5" style="max-width: 450px;">

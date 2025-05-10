@@ -10,15 +10,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/dropdown-hover.js"></script>
+    <script src="js/back-to-top.js"></script>
+
 </head>
-<body>
+<body class="bg-gradient-gray-black text-light">
     <?php include 'includes/header.php'; ?>
     <?php include 'includes/nav.php'; ?>
 
    <div class="container py-5">
     <div class="text-center mb-5">
         <h1 class="fw-bold">Giới thiệu về Blue Eagle</h1>
-        <p class="text-muted">Đam mê bóng đá - Tinh thần sinh viên - Khát vọng bay xa</p>
+        <p class="text-light">Đam mê bóng đá - Tinh thần sinh viên - Khát vọng bay xa</p>
     </div>
 
     <div class="row align-items-center mb-5">
@@ -124,7 +126,7 @@
 <div class="row align-items-center mb-5">
     <div class="col-md-12 text-center">
         <h3 class="fw-bold">Blue Eagle – Không chỉ là giày, mà là tinh thần thể thao</h3>
-        <p class="text-muted">
+        <p class="text-light">
             Từ một đội bóng sinh viên đầy nhiệt huyết, đến một thương hiệu giày đá bóng được yêu thích khắp cả nước – hành trình ấy vẫn đang tiếp diễn, với những khát vọng và giấc mơ chưa bao giờ dừng lại.
         </p>
         <p>
@@ -137,5 +139,8 @@
 
     <?php include 'includes/footer.php'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <button type="button" class="btn btn-warning btn-lg rounded-circle shadow back-to-top" id="btn-back-to-top">
+  <i class="bi bi-arrow-up"></i>
+</button>
 </body>
 </html>

@@ -14,12 +14,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($stmt->num_rows == 1) {
         $stmt->bind_result($id, $ho_ten);
         $stmt->fetch();
-        $_SESSION['khachhang_id'] = $id;
-        $_SESSION['taikhoan'] = $taikhoan;
-        $_SESSION['ho_ten'] = $ho_ten;
+
+        // Lưu thông tin tài khoản vào session
+        $_SESSION['taikhoan'] = [
+            'id' => $id,
+            'tai_khoan' => $taikhoan,
+            'ho_ten' => $ho_ten
+        ];
+
+        // 🔁 Khôi phục giỏ hàng từ cookie nếu có
+        if (isset($_COOKIE['cart_backup'])) {
+            $_SESSION['cart'] = json_decode($_COOKIE['cart_backup'], true);
+            setcookie("cart_backup", "", time() - 3600, "/"); // Xóa cookie
+        }
+
         header("Location: index.php");
+        exit();
     } else {
         header("Location: dangnhap.php?error=Tài khoản hoặc mật khẩu không đúng");
+        exit();
     }
 
     $stmt->close();
