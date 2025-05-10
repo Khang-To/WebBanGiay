@@ -1,0 +1,186 @@
+/* style.css */
+/* Thanh trên cùng */
+.top-bar {
+    background-color: #1e1e1e;
+    font-size: 0.9rem;
+}
+
+/* Header chính */
+.main-header {
+    background-color: #2a2a2a;
+}
+
+/* Menu */
+.main-menu {
+    background-color: #2a2a2a;
+}
+
+.main-menu a {
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0 15px;
+}
+
+.main-menu a:hover {
+    color: #ffc107;
+}
+
+/* Nút CTA */
+.cta-button {
+    background-color: #c82333;
+    color: white;
+    font-weight: bold;
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+}
+
+/* Dropdown tùy chỉnh */
+.dropdown-menu {
+    background-color: #2a2a2a; /* cùng màu với header */
+    border-radius: 0 !important; /* bỏ bo góc */
+    border: none;
+    margin-top: 0; /* tránh tạo khoảng cách */
+    padding: 0;
+}
+
+input::placeholder {
+    color: #e0e0e0 !important;
+    opacity: 1;
+}
+
+.dropdown-menu .dropdown-item {
+    color: white;
+    padding: 10px 20px;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #3a3a3a; /* màu hover tối hơn */
+    color: #ffc107;
+}
+
+/* image mang xa hoi */
+.footer-social-images img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.footer-social-images img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+ footer a {
+        transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+        color: #ffc107 !important; /* Màu vàng tươi */
+    }
+
+    /*banner*/
+#bannerCarousel {
+    max-height: 500px;  
+    overflow: hidden;
+}
+
+#bannerCarousel .carousel-item img {
+    object-fit: cover;
+    height: 500px;   
+    width: 100%;
+}
+
+/*hieu ung cho card */
+.card-link {
+    text-decoration: none;
+}
+
+.brand-card {
+    position: relative;
+    transition: transform 0.3s ease;
+    overflow: hidden;
+    border: none;
+    border-radius: 10px;
+}
+
+.brand-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+/* Hiệu ứng lấp lánh */
+.card-link {
+    text-decoration: none;
+}
+
+.brand-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2); /* viền mờ trắng */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* đổ bóng nhẹ */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.brand-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2); /* đổ bóng khi hover */
+}
+
+
+/* Overlay text on image */
+.overlay-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+    text-align: center;
+}
+
+/* Lấp lánh khi hover */
+.brand-card::after {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(25deg);
+    pointer-events: none;
+    opacity: 0;
+}
+
+.brand-card:hover::after {
+    animation: shine 0.8s forwards;
+    opacity: 1;
+}
+
+@keyframes shine {
+    0% {
+        top: -100%;
+        left: -100%;
+    }
+    100% {
+        top: 100%;
+        left: 100%;
+    }
+}
+
+
+
+
+
