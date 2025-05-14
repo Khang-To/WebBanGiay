@@ -33,61 +33,64 @@ if (!isset($_SESSION['taikhoan'])) {
     } else {
         $co_san_pham = false;
         echo '<form action="capnhatgiohang.php" method="post">';
-        echo '<table class="table table-bordered text-white">';
-        echo '<thead><tr>
-                <th>Hình ảnh</th>
-                <th>Tên giày</th>
-                <th>Size</th>
-                <th>Đơn giá</th>
-                <th>Số lượng</th>
-                <th>Thành tiền</th>
-                <th>Xóa</th>
-              </tr></thead><tbody>';
+            echo '<table class="table table-bordered table-dark text-white">';
+echo '<thead><tr>
+        <th>Hình ảnh</th>
+        <th>Tên giày</th>
+        <th>Size</th>
+        <th>Đơn giá</th>
+        <th>Số lượng</th>
+        <th>Thành tiền</th>
+        <th>Xóa</th>
+      </tr></thead><tbody>';
 
-        foreach ($_SESSION['giohang'] as $key => $item) {
-            if (strpos($key, '_') === false) continue;
-            [$id, $size] = explode('_', $key);
-            $soluong = (int)$item['so_luong'];
+foreach ($_SESSION['giohang'] as $key => $item) {
+    if (strpos($key, '_') === false) continue;
+    [$id, $size] = explode('_', $key);
+    $soluong = (int)$item['so_luong'];
 
-            $stmt = $conn->prepare("SELECT ten_giay, don_gia, hinh_anh FROM giay WHERE id = ?");
-            $stmt->bind_param("i", $id);
-            $stmt->execute();
-            $stmt->bind_result($ten_giay, $don_gia, $hinh_anh);
+    $stmt = $conn->prepare("SELECT ten_giay, don_gia, ti_le_giam_gia, hinh_anh FROM giay WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $stmt->bind_result($ten_giay, $don_gia, $ti_le_giam_gia, $hinh_anh);
 
-            if (!$stmt->fetch()) {
-                $stmt->close();
-                continue;
-            }
-            $stmt->close();
+    if (!$stmt->fetch()) {
+        $stmt->close();
+        continue;
+    }
+    $stmt->close();
 
-            $co_san_pham = true;
-            $thanhtien = $don_gia * $soluong;
-            $tong_tien += $thanhtien;
+    $co_san_pham = true;
+    $gia_ap_dung = ($ti_le_giam_gia > 0) ? $don_gia * (1 - $ti_le_giam_gia / 100) : $don_gia;
+    $thanhtien = $gia_ap_dung * $soluong;
+    $tong_tien += $thanhtien;
 
-            echo "<tr>
-                    <td><img src='uploads/{$hinh_anh}' width='80'></td>
-                    <td>{$ten_giay}</td>
-                    <td>{$size}</td>
-                    <td>" . number_format($don_gia) . " đ</td>
-                    <td><input type='number' name='soluong[{$key}]' value='{$soluong}' min='1' style='width: 60px'></td>
-                    <td>" . number_format($thanhtien) . " đ</td>
-                    <td><a href='xoagiohang.php?key={$key}' class='btn btn-danger btn-sm'>X</a></td>
-                  </tr>";
-        }
+    echo "<tr>
+            <td><img src='../uploads/{$hinh_anh}' width='80'></td>
+            <td>{$ten_giay}</td>
+            <td>{$size}</td>
+            <td class='text-price'>" . number_format($gia_ap_dung) . " đ</td>
+            <td><input type='number' name='soluong[{$key}]' value='{$soluong}' min='1' style='width: 60px'></td>
+            <td class='text-price'>" . number_format($thanhtien) . " đ</td>
+            <td><a href='xoagiohang.php?key={$key}' class='btn btn-danger btn-sm'>X</a></td>
+          </tr>";
+}
 
-        echo "</tbody></table>";
 
-        if (!$co_san_pham) {
-            echo "<p class='text-warning'>Giỏ hàng trống hoặc sản phẩm không còn tồn tại.</p>";
-        } else {
-            echo "<h4 class='text-warning'>Tổng tiền: " . number_format($tong_tien) . " đ</h4>";
-            echo '<a href="index.php" class="btn btn-outline-light">⬅ Tiếp tục mua</a> ';
-            echo '<button type="submit" class="btn btn-success">🔄 Cập nhật giỏ hàng</button> ';
-            echo '<a href="thanhtoan.php" class="btn btn-primary">💳 Thanh toán</a> ';
-            echo '<a href="xoagiohang.php?all=1" class="btn btn-outline-danger">🗑 Xóa tất cả</a>';
-        }
+echo "</tbody></table>";
 
-        echo '</form>';
+if (!$co_san_pham) {
+    echo "<p class='text-warning'>Giỏ hàng trống hoặc sản phẩm không còn tồn tại.</p>";
+} else {
+    echo "<h4 class='text-price'>Tổng tiền: " . number_format($tong_tien) . " đ</h4>";
+    echo '<a href="index.php" class="btn btn-outline-light">⬅ Tiếp tục mua</a> ';
+    echo '<button type="submit" class="btn btn-success">🔄 Cập nhật giỏ hàng</button> ';
+    echo '<a href="thanhtoan.php" class="btn btn-primary">💳 Thanh toán</a> ';
+    echo '<a href="xoagiohang.php?all=1" class="btn btn-outline-danger">🗑 Xóa tất cả</a>';
+}
+
+echo '</form>';
+
     }
     ?>
 </div>

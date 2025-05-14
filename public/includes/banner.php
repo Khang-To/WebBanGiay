@@ -1,31 +1,106 @@
-<!-- Banner Slider -->
-<div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-  <!-- Indicators -->
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></button>
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1"></button>
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2"></button>
-    </div>
+<style>
+.swiper {
+  width: 100%;
+  height: 500px; /* hoặc vh nếu muốn full màn hình dọc */
+  padding-top: 50px;
+  padding-bottom: 50px;
+  /* XÓA max-width để không bị bó giữa */
+}
 
-    <!-- Nội dung slider -->
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="images/banner1.webp" class="d-block w-100" alt="Banner 1">
+.swiper-slide {
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transition: transform 0.3s;
+}
+
+.swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: white;
+  transform: scale(1.3);
+}
+
+.swiper-pagination-bullet {
+  background: white;
+  opacity: 0.7;
+}
+
+.swiper-pagination-bullet-active {
+  background: #007bff;
+}
+
+.swiper.mySwiper3D {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+</style>
+
+
+
+<!-- Banner Swiper 3D -->
+<div class="swiper mySwiper3D rounded shadow mt-4">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide">
+      <img src="images/banner1.webp" class="w-100 rounded" alt="Banner 1">
     </div>
-    <div class="carousel-item">
-      <img src="images/banner2.webp" class="d-block w-100" alt="Banner 2">
+    <div class="swiper-slide">
+      <img src="images/banner2.webp" class="w-100 rounded" alt="Banner 2">
     </div>
-    <div class="carousel-item">
-      <img src="images/banner3.jpg" class="d-block w-100" alt="Banner 3">
+    <div class="swiper-slide">
+      <img src="images/banner3.jpg" class="w-100 rounded" alt="Banner 3">
+    </div>
+    <div class="swiper-slide">
+      <img src="images/banner4.webp" class="w-100 rounded" alt="Banner 4">
     </div>
   </div>
 
-  <!-- Nút điều hướng -->
-  <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon"></span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
-    <span class="carousel-control-next-icon"></span>
-  </button>
+  <!-- Điều hướng + chỉ số -->
+  <div class="swiper-button-next"></div>
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-pagination"></div>
 </div>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+  const swiper = new Swiper(".mySwiper3D", {
+    effect: "coverflow",
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: "auto",
+    loop: true,
+    coverflowEffect: {
+      rotate: 30,
+      stretch: 0,
+      depth: 150,
+      modifier: 1.2,
+      slideShadows: true,
+    },
+    autoplay: {
+      delay: 4000,
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+  });
+</script>

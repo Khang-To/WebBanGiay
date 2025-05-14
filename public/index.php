@@ -19,14 +19,20 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/back-to-top.js"></script>
+    <script src="js/carousel-controls.js"></script>
 </head>
 
 <body class="bg-gradient-gray-black">
     <?php include 'includes/header.php'; ?>
     <?php include 'includes/nav.php'; ?>
     <?php include 'includes/banner.php'; ?>
+    <?php include 'includes/hangmoive.php'; ?>
+    <?php include 'includes/giamgia.php'; ?>
+    <?php include 'includes/giaycaocap.php'; ?>
     <?php include 'includes/loaigiay.php'; ?>
     <?php include 'includes/thuonghieu.php'; ?>
+    <?php include 'includes/chonngaunhien.php'; ?>
+    <?php include 'includes/tintuc.php'; ?>
     <?php include 'includes/footer.php'; ?>
     <button type="button" class="btn btn-warning btn-lg rounded-circle shadow back-to-top" id="btn-back-to-top">
   <i class="bi bi-arrow-up"></i>
