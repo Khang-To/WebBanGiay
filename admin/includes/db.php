@@ -1,7 +1,7 @@
 <?php
 $host = 'localhost';
 $username = 'root'; 
-$password = 'vertrigo'; 
+$password = ''; 
 $database = 'shop_giay';
 
 $conn = new mysqli($host, $username, $password, $database);

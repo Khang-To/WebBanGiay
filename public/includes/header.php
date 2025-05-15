@@ -31,8 +31,8 @@ $user = $_SESSION['taikhoan'] ?? null;
                 <ul class="dropdown-menu dropdown-menu-end">
                     <?php if (isset($_SESSION['taikhoan']) && is_array($_SESSION['taikhoan'])): ?>
                         <li><a class="dropdown-item" href="giohang.php"><i class="bi bi-cart-check me-1"></i> Giỏ hàng</a></li>
-                        <li><a class="dropdown-item" href="thanhtoan.php"><i class="bi bi-credit-card me-1"></i> Thanh toán</a></li>
-                        <li><a class="dropdown-item" href="tracuu.php"><i class="bi bi-search me-1"></i> Tra cứu đơn hàng</a></li>
+                        <li><a class="dropdown-item" href="tracuuthanhtoan.php"><i class="bi bi-credit-card me-1"></i> Thanh toán</a></li>
+                        <li><a class="dropdown-item" href="donhang.php"><i class="bi bi-search me-1"></i> Tra cứu đơn hàng</a></li>
                         <li><a class="dropdown-item text-danger" href="dangxuat.php"><i class="bi bi-box-arrow-right me-1"></i> Đăng xuất</a></li>
                     <?php else: ?>
                         <li><a class="dropdown-item" href="dangky.php"><i class="bi bi-person-plus me-1"></i> Đăng ký</a></li>

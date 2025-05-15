@@ -77,9 +77,12 @@ while ($row = $sizesCheck->fetch_assoc()) {
         <?php else: ?>
           <?php while($sz = $sizes->fetch_assoc()): ?>
             <?php if ($sz['so_luong_ton'] > 0): ?>
-              <button type="button" class="btn btn-outline-light btn-size me-1 mb-1" data-size="<?= $sz['size'] ?>">
-                <?= $sz['size'] ?>
-              </button>
+              <button type="button"
+        class="btn btn-outline-light btn-size me-1 mb-1"
+        data-size="<?= $sz['size'] ?>"
+        data-quantity="<?= $sz['so_luong_ton'] ?>">
+  <?= $sz['size'] ?>
+</button>
             <?php else: ?>
               <button type="button" class="btn btn-outline-secondary me-1 mb-1" disabled>
                 <?= $sz['size'] ?> (Hết hàng)
@@ -114,6 +117,29 @@ while ($row = $sizesCheck->fetch_assoc()) {
           </div>
         </div>
 
+<!-- Modal Đặt hàng ngay -->
+<div class="modal fade" id="modalDatHangNgay" tabindex="-1" aria-labelledby="modalLabelDatHang" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-white bg-dark">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabelDatHang">💳 Đặt hàng ngay</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+      </div>
+      <div class="modal-body">
+        <form id="form-dat-hang-ngay" action="dathangngay.php" method="get">
+          <input type="hidden" name="id" value="<?= $giay['id'] ?>">
+          <input type="hidden" name="size" id="selected-size-mua" value="">
+          <input type="hidden" name="gia" value="<?= $giaSauGiam ?>">
+          <div class="mb-3">
+            <label for="soluong-mua" class="form-label">Số lượng:</label>
+            <input type="number" class="form-control" name="soluong" id="input-soluong-mua" value="1" min="1" required>
+          </div>
+          <button type="submit" class="btn btn-danger w-100">💳 Xác nhận đặt hàng</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
         <!-- Nút thêm giỏ / mua ngay -->
         <?php if (isset($_SESSION['taikhoan'])): ?>
           <button type="button"
@@ -125,15 +151,16 @@ while ($row = $sizesCheck->fetch_assoc()) {
             <input type="hidden" name="id" value="<?= $giay['id'] ?>">
             <input type="hidden" name="size" id="mua-ngay-size" value="">
             <input type="hidden" name="soluong" value="1">
-            <button type="submit"
-                    class="btn btn-danger <?= $conHang ? '' : 'disabled opacity-50' ?>"
-                    <?= $conHang ? '' : 'disabled' ?>>
-              💳 Mua ngay
-            </button>
+            <button type="button"
+        class="btn btn-danger <?= $conHang ? '' : 'disabled opacity-50' ?>"
+        id="btn-open-modal-dathang"
+        <?= $conHang ? '' : 'disabled' ?>>
+  💳 Đặt hàng
+</button>
           </form>
         <?php else: ?>
           <a href="dangnhap.php" class="btn btn-outline-light me-2 <?= $conHang ? '' : 'disabled opacity-50' ?>">🛒 Thêm vào giỏ</a>
-          <a href="dangnhap.php" class="btn btn-outline-danger <?= $conHang ? '' : 'disabled opacity-50' ?>">💳 Mua ngay</a>
+          <a href="dangnhap.php" class="btn btn-outline-danger <?= $conHang ? '' : 'disabled opacity-50' ?>">💳 Đặt hàng</a>
         <?php endif; ?>
       </div>
     </div>
@@ -160,33 +187,77 @@ while ($row = $sizesCheck->fetch_assoc()) {
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const sizeButtons = document.querySelectorAll('.btn-size');
-  const inputSelectedSize = document.getElementById('selected-size');
-  const muaNgaySizeInput = document.getElementById('mua-ngay-size');
+  const inputSelectedSize = document.getElementById('selected-size');         // cho form "Thêm vào giỏ"
+  const muaNgaySizeInput = document.getElementById('selected-size-mua');     // cho form "Đặt hàng ngay"
   const openModalBtn = document.getElementById('btn-open-modal');
-  const inputSoLuong = document.getElementById('input-soluong');
-  const modal = new bootstrap.Modal(document.getElementById('modalThemVaoGio'));
+  const datHangBtn = document.getElementById('btn-open-modal-dathang');
+  const modalThemVaoGio = new bootstrap.Modal(document.getElementById('modalThemVaoGio'));
+  const modalDatHangNgay = new bootstrap.Modal(document.getElementById('modalDatHangNgay'));
+  const soluongInput = document.getElementById('input-soluong');             // số lượng thêm giỏ
+  const soluongMuaInput = document.getElementById('input-soluong-mua');      // số lượng mua ngay
 
-  let selectedSize = '';
+  let maxQuantity = 0;
 
   // Khi chọn size
   sizeButtons.forEach(btn => {
     btn.addEventListener('click', () => {
+      // Xóa màu vàng các nút size khác, đánh dấu size được chọn
       sizeButtons.forEach(b => b.classList.remove('btn-warning'));
       btn.classList.add('btn-warning');
 
-      selectedSize = btn.dataset.size;
+      const selectedSize = btn.dataset.size;
+      maxQuantity = parseInt(btn.dataset.quantity) || 0;
+
+      // Gán giá trị vào input ẩn
       inputSelectedSize.value = selectedSize;
       muaNgaySizeInput.value = selectedSize;
+
+      // Cập nhật max số lượng cho cả 2 form
+      soluongInput.max = maxQuantity;
+      soluongMuaInput.max = maxQuantity;
     });
   });
 
-  // Mở modal nếu đã chọn size
+  // Kiểm tra số lượng khi thêm giỏ hàng
+  document.getElementById("form-them-vao-gio").addEventListener("submit", function (e) {
+    const qty = parseInt(soluongInput.value);
+    if (qty > maxQuantity) {
+      e.preventDefault();
+      alert(`⚠️ Chỉ còn ${maxQuantity} sản phẩm có sẵn cho size đã chọn.`);
+    } else if (qty <= 0 || isNaN(qty)) {
+      e.preventDefault();
+      alert("⚠️ Vui lòng nhập số lượng hợp lệ.");
+    }
+  });
+
+  // Kiểm tra số lượng khi đặt hàng ngay
+  document.getElementById("form-dat-hang-ngay").addEventListener("submit", function (e) {
+    const qty = parseInt(soluongMuaInput.value);
+    if (qty > maxQuantity) {
+      e.preventDefault();
+      alert(`⚠️ Chỉ còn ${maxQuantity} sản phẩm có sẵn cho size đã chọn.`);
+    } else if (qty <= 0 || isNaN(qty)) {
+      e.preventDefault();
+      alert("⚠️ Vui lòng nhập số lượng hợp lệ.");
+    }
+  });
+
+  // Mở modal "Thêm vào giỏ" nếu đã chọn size
   openModalBtn.addEventListener('click', () => {
     if (!inputSelectedSize.value.trim()) {
       alert("⚠️ Vui lòng chọn size trước khi thêm vào giỏ hàng.");
       return;
     }
-    modal.show();
+    modalThemVaoGio.show();
+  });
+
+  // Mở modal "Đặt hàng ngay" nếu đã chọn size
+  datHangBtn.addEventListener('click', () => {
+    if (!muaNgaySizeInput.value.trim()) {
+      alert("⚠️ Vui lòng chọn size trước khi đặt hàng.");
+      return;
+    }
+    modalDatHangNgay.show();
   });
 });
 </script>

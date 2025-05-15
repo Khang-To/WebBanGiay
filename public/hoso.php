@@ -62,6 +62,7 @@ $khach_hang = $result->fetch_assoc();
     <p><strong>Họ tên:</strong> <?= htmlspecialchars($khach_hang['ho_ten'] ?? 'Chưa có') ?></p>
     <p><strong>Email:</strong> <?= htmlspecialchars($khach_hang['email'] ?? 'Chưa có') ?></p>
     <p><strong>Địa chỉ:</strong> <?= htmlspecialchars($khach_hang['dia_chi'] ?? 'Chưa có') ?></p>
+    <p><strong>Số điện thoại:</strong> <?= htmlspecialchars($khach_hang['so_dien_thoai'] ?? 'Chưa có') ?></p>
 
     <a href="?edit=true" class="btn btn-warning me-2">Sửa thông tin</a>
     <a href="?doimatkhau=true" class="btn btn-warning me-2">Đổi mật khẩu</a>
@@ -79,6 +80,11 @@ $khach_hang = $result->fetch_assoc();
                 <input type="text" name="dia_chi" id="dia_chi" class="form-control"
                        value="<?= htmlspecialchars($khach_hang['dia_chi'] ?? '') ?>" required>
             </div>
+            <div class="col-md-6">
+    <label for="so_dien_thoai" class="form-label">Số điện thoại</label>
+    <input type="text" name="so_dien_thoai" id="so_dien_thoai" class="form-control"
+           value="<?= htmlspecialchars($khach_hang['so_dien_thoai'] ?? '') ?>" required>
+</div>
             <div class="col-12">
                 <button type="submit" class="btn btn-success">Lưu thông tin</button>
                 <a href="hoso.php" class="btn btn-secondary">Hủy</a>

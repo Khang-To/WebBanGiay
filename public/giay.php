@@ -88,6 +88,7 @@ $ds_size = $conn->query("SELECT DISTINCT size FROM size_giay ORDER BY size");
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/back-to-top.js"></script>
 </head>
 <body class="bg-gradient-gray-black text-white">
 
@@ -188,7 +189,6 @@ $ds_size = $conn->query("SELECT DISTINCT size FROM size_giay ORDER BY size");
 
                 <p class="text-muted small mb-1"><?= $sp['ten_loai'] ?></p>
 
-                <!-- Display "HẾT HÀNG" in red if out of stock -->
                 <?php if ($is_out_of_stock): ?>
                     <p class="text-danger small mb-1"><strong>HẾT HÀNG</strong></p>
                 <?php else: ?>
@@ -207,7 +207,7 @@ $ds_size = $conn->query("SELECT DISTINCT size FROM size_giay ORDER BY size");
                     </button>
                 </div>
             <?php else: ?>
-                <a href="dangnhap.php" class="btn btn-outline-dark w-100">
+                <a href="dangnhap.php" class="btn btn-outline-light w-100">
                     <i class="bi bi-box-arrow-in-right"></i> Đăng nhập để mua
                 </a>
             <?php endif; ?>
@@ -218,82 +218,153 @@ $ds_size = $conn->query("SELECT DISTINCT size FROM size_giay ORDER BY size");
         <!-- Modal Thêm vào giỏ -->
 <?php if (isset($_SESSION['taikhoan'])): ?>
   <div class="modal fade" id="modal<?= $sp['id'] ?>" tabindex="-1" aria-labelledby="modalLabel<?= $sp['id'] ?>" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content bg-dark text-white border-secondary">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalLabel<?= $sp['id'] ?>">Chọn size & số lượng</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-dark text-white border-secondary">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel<?= $sp['id'] ?>">Chọn size & số lượng</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
+      </div>
+
+      <form action="themvaogiohang.php" method="get">
+        <div class="modal-body">
+          <input type="hidden" name="id" value="<?= $sp['id'] ?>">
+          <input type="hidden" name="gia" value="<?= $sp['ti_le_giam_gia'] > 0 ? $sp['don_gia'] * (1 - $sp['ti_le_giam_gia'] / 100) : $sp['don_gia'] ?>">
+
+          <!-- Chọn size -->
+          <div class="mb-3">
+            <label class="form-label">Size</label>
+            <select name="size" class="form-select bg-dark text-white border-secondary" required>
+              <option value="">Chọn size</option>
+              <?php
+              $sizes = $conn->query("SELECT size, so_luong_ton FROM size_giay WHERE giay_id = {$sp['id']} AND so_luong_ton > 0 ORDER BY size");
+              while ($sz = $sizes->fetch_assoc()):
+              ?>
+                <option value="<?= $sz['size'] ?>" data-soluongton="<?= $sz['so_luong_ton'] ?>">
+                  <?= $sz['size'] ?>
+                </option>
+              <?php endwhile; ?>
+            </select>
+          </div>
+
+          <!-- Nhập số lượng -->
+          <div class="mb-3">
+            <label class="form-label">Số lượng</label>
+            <input type="number" name="soluong" value="1" min="1" class="form-control bg-dark text-white border-secondary" required>
+          </div>
         </div>
 
-        <form action="themvaogiohang.php" method="get">
-          <div class="modal-body">
-            <input type="hidden" name="id" value="<?= $sp['id'] ?>">
-            <input type="hidden" name="gia" value="<?= $sp['ti_le_giam_gia'] > 0 ? $sp['don_gia'] * (1 - $sp['ti_le_giam_gia'] / 100) : $sp['don_gia'] ?>">
-            <div class="mb-3">
-              <label class="form-label">Size</label>
-              <select name="size" class="form-select bg-dark text-white border-secondary" required>
-                <option value="">Chọn size</option>
-                <?php
-                $sizes = $conn->query("SELECT size FROM size_giay WHERE giay_id = {$sp['id']} AND so_luong_ton > 0 ORDER BY size");
-                while ($sz = $sizes->fetch_assoc()):
-                ?>
-                  <option value="<?= $sz['size'] ?>"><?= $sz['size'] ?></option>
-                <?php endwhile; ?>
-              </select>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Số lượng</label>
-              <input type="number" name="soluong" value="1" min="1" class="form-control bg-dark text-white border-secondary" required>
-            </div>
-          </div>
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-            <button type="submit" class="btn btn-warning">🛒 Thêm vào giỏ</button>
-          </div>
-        </form>
-
-      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-warning">🛒 Thêm vào giỏ</button>
+        </div>
+      </form>
     </div>
   </div>
+</div>
+
+<!-- Script kiểm tra số lượng vượt quá tồn kho -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const modal = document.getElementById('modal<?= $sp['id'] ?>');
+  if (!modal) return;
+
+  const sizeSelect = modal.querySelector('select[name="size"]');
+  const quantityInput = modal.querySelector('input[name="soluong"]');
+
+  sizeSelect.addEventListener('change', function () {
+    const selected = sizeSelect.options[sizeSelect.selectedIndex];
+    const maxQty = parseInt(selected.dataset.soluongton) || 1;
+    quantityInput.max = maxQty;
+    if (parseInt(quantityInput.value) > maxQty) {
+      quantityInput.value = maxQty;
+    }
+  });
+
+  quantityInput.addEventListener('input', function () {
+    const selected = sizeSelect.options[sizeSelect.selectedIndex];
+    const maxQty = parseInt(selected.dataset.soluongton) || 1;
+    if (parseInt(quantityInput.value) > maxQty) {
+      alert("Số lượng vượt quá tồn kho!");
+      quantityInput.value = maxQty;
+    }
+  });
+});
+</script>
+
 <?php endif; ?>
-        <!-- Modal Mua Ngay -->
-        <div class="modal fade" id="muangay<?= $sp['id'] ?>" tabindex="-1" aria-labelledby="muangayLabel<?= $sp['id'] ?>" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-dark text-white border-secondary">
-              <div class="modal-header">
-                <h5 class="modal-title" id="muangayLabel<?= $sp['id'] ?>">Mua ngay - chọn size & số lượng</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
-              </div>
-              <form action="thanhtoan.php" method="get">
-                <div class="modal-body">
-                  <input type="hidden" name="id" value="<?= $sp['id'] ?>">
-                  <div class="mb-3">
-                    <label class="form-label">Size</label>
-                    <select name="size" class="form-select bg-dark text-white border-secondary" required>
-                      <option value="">Chọn size</option>
-                      <?php
-                      $sizes = $conn->query("SELECT size FROM size_giay WHERE giay_id = {$sp['id']} AND so_luong_ton > 0 ORDER BY size");
-                      while($sz = $sizes->fetch_assoc()):
-                      ?>
-                        <option value="<?= $sz['size'] ?>"><?= $sz['size'] ?></option>
-                      <?php endwhile; ?>
-                    </select>
-                  </div>
-                  <div class="mb-3">
-                    <label class="form-label">Số lượng</label>
-                    <input type="number" name="soluong" value="1" min="1" class="form-control bg-dark text-white border-secondary" required>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                  <button type="submit" class="btn btn-success">💰 Mua ngay</button>
-                </div>
-              </form>
-            </div>
+        <!-- Modal Đặt hàng -->
+<div class="modal fade" id="muangay<?= $sp['id'] ?>" tabindex="-1" aria-labelledby="muangayLabel<?= $sp['id'] ?>" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-dark text-white border-secondary">
+      <div class="modal-header">
+        <h5 class="modal-title" id="muangayLabel<?= $sp['id'] ?>">Đặt hàng - chọn size & số lượng</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
+      </div>
+      <form action="dathangngay.php" method="get">
+        <div class="modal-body">
+          <input type="hidden" name="id" value="<?= $sp['id'] ?>">
+          
+          <!-- Chọn size -->
+          <div class="mb-3">
+            <label class="form-label">Size</label>
+            <select name="size" class="form-select bg-dark text-white border-secondary" required>
+              <option value="">Chọn size</option>
+              <?php
+              $sizes = $conn->query("SELECT size, so_luong_ton FROM size_giay WHERE giay_id = {$sp['id']} AND so_luong_ton > 0 ORDER BY size");
+              while($sz = $sizes->fetch_assoc()):
+              ?>
+                <option value="<?= $sz['size'] ?>" data-soluongton="<?= $sz['so_luong_ton'] ?>">
+                  <?= $sz['size'] ?>
+                </option>
+              <?php endwhile; ?>
+            </select>
+          </div>
+
+          <!-- Nhập số lượng -->
+          <div class="mb-3">
+            <label class="form-label">Số lượng</label>
+            <input type="number" name="soluong" value="1" min="1" class="form-control bg-dark text-white border-secondary" required>
           </div>
         </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-success">Đặt hàng</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Script kiểm tra số lượng vượt tồn kho -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const modal = document.getElementById('muangay<?= $sp['id'] ?>');
+  if (!modal) return;
+
+  const sizeSelect = modal.querySelector('select[name="size"]');
+  const quantityInput = modal.querySelector('input[name="soluong"]');
+
+  sizeSelect.addEventListener('change', function () {
+    const selected = sizeSelect.options[sizeSelect.selectedIndex];
+    const maxQty = parseInt(selected.dataset.soluongton) || 1;
+    quantityInput.max = maxQty;
+    if (parseInt(quantityInput.value) > maxQty) {
+      quantityInput.value = maxQty;
+    }
+  });
+
+  quantityInput.addEventListener('input', function () {
+    const selected = sizeSelect.options[sizeSelect.selectedIndex];
+    const maxQty = parseInt(selected.dataset.soluongton) || 1;
+    if (parseInt(quantityInput.value) > maxQty) {
+      alert("Số lượng vượt quá tồn kho!");
+      quantityInput.value = maxQty;
+    }
+  });
+});
+</script>
+
       <?php endwhile; ?>
     <?php else: ?>
       <div class="col-12">
@@ -302,6 +373,14 @@ $ds_size = $conn->query("SELECT DISTINCT size FROM size_giay ORDER BY size");
     <?php endif; ?>
   </div>
 </div>
+  </div>
+</div>
+</div>
 <?php include 'includes/footer.php'; ?>
+    <button type="button" class="btn btn-warning btn-lg rounded-circle shadow back-to-top" id="btn-back-to-top">
+  <i class="bi bi-arrow-up"></i>
+</button>
 </body>
 </html>
+
+

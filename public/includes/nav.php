@@ -51,6 +51,10 @@
             ?>
           </ul>
         </li>
+
+        <li class="nav-item px-2">
+          <a class="nav-link" href="donhang.php"><i class="bi bi-box-seam"></i> TRA CỨU ĐƠN HÀNG</a>
+        </li>
       </ul>
     </div>
   </div>

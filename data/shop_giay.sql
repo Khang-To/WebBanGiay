@@ -19,7 +19,8 @@ CREATE TABLE khach_hang (
     mat_khau VARCHAR(255) NOT NULL,
     email VARCHAR(100),
     ho_ten VARCHAR(100),
-    dia_chi VARCHAR(255)
+    dia_chi VARCHAR(255),
+    so_dien_thoai VARCHAR(10)
 );
 
 -- Bảng Thương hiệu
@@ -52,7 +53,7 @@ CREATE TABLE giay (
 CREATE TABLE size_giay (
     id INT AUTO_INCREMENT PRIMARY KEY,
     giay_id INT NOT NULL,
-    size VARCHAR(10),
+    size INT NOT NULL,
     so_luong_ton INT,
     FOREIGN KEY (giay_id) REFERENCES giay(id) ON DELETE CASCADE
 );
