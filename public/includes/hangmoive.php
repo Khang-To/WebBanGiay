@@ -73,7 +73,10 @@ while ($row = mysqli_fetch_assoc($kq_moi)) {
                 -<?= $giam ?>%
               </div>
             <?php endif; ?>
-            <img src="hinhanh.php?file=<?= urlencode($row['hinh_anh']) ?>" class="card-img-top" alt="<?= htmlspecialchars($row['ten_giay']) ?>">
+           <img src="hinhanh.php?file=<?= urlencode($row['hinh_anh']) ?>" 
+            class="card-img-top" 
+            alt="<?= htmlspecialchars($row['ten_giay']) ?>" 
+            style="height: 200px; object-fit: contain;">
             <div class="card-body">
               <h6 class="card-title text-truncate mb-2"><?= $row['ten_giay'] ?></h6>
               <?php if ($giam > 0): ?>
