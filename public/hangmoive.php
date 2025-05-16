@@ -1,5 +1,5 @@
 <?php
-include_once 'cauhinh.php';
+include_once 'includes/cauhinh.php';
 
 $sql_moi = "SELECT * FROM giay ORDER BY id DESC LIMIT 18";
 $kq_moi = mysqli_query($conn, $sql_moi);
@@ -73,7 +73,7 @@ while ($row = mysqli_fetch_assoc($kq_moi)) {
                 -<?= $giam ?>%
               </div>
             <?php endif; ?>
-           <img src="hinhanh.php?file=<?= urlencode($row['hinh_anh']) ?>" 
+          <img src="hinh.php?file=<?= urlencode(htmlspecialchars($row['hinh_anh'])) ?>"
             class="card-img-top" 
             alt="<?= htmlspecialchars($row['ten_giay']) ?>" 
             style="height: 200px; object-fit: contain;">

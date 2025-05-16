@@ -1,4 +1,4 @@
-<?php include 'cauhinh.php'; ?>
+<?php include 'includes/cauhinh.php'; ?>
 
 <section class="container py-5 text-light" style="background-color: #111;">
   <div class="d-flex justify-content-between align-items-center mb-4">
@@ -31,7 +31,10 @@
             <div class="position-absolute top-0 start-0 bg-danger px-2 py-1 text-white small rounded-end">
               -<?= $giam ?>%
             </div>
-            <img src="hinhanh.php?file=<?php echo urlencode($row['hinh_anh']); ?>" class="card-img-top" alt="<?= $row['ten_giay'] ?>" style="height: 200px; object-fit: cover;">
+           <img src="hinh.php?file=<?= urlencode(htmlspecialchars($row['hinh_anh'])) ?>" 
+            class="card-img-top" 
+            alt="<?= htmlspecialchars($row['ten_giay']) ?>" 
+            style="height: 200px; object-fit: cover;">
             <div class="card-body">
               <h6 class="card-title text-truncate"><?= $row['ten_giay'] ?></h6>
               

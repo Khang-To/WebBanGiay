@@ -57,7 +57,7 @@
         </li>
 
         <li class="nav-item px-2">
-          <a class="nav-link" href="donhang.php"><i class="bi bi-info-circle me-1"></i> HƯỚNG DẪN SỬ DỤNG</a>
+          <a class="nav-link" href="huongdansd.php"><i class="bi bi-info-circle me-1"></i> HƯỚNG DẪN SỬ DỤNG</a>
         </li>
       </ul>
     </div>

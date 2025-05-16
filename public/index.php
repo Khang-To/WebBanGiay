@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Blue Eagle Shoes - Giày là đam mê</title>
+    <title>Blue Eagle Store - Giày là đam mê</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="icon" type="image/png" href="images/logo.png">
@@ -26,9 +26,9 @@
     <?php include 'includes/header.php'; ?>
     <?php include 'includes/nav.php'; ?>
     <?php include 'includes/banner.php'; ?>
-    <?php include 'includes/hangmoive.php'; ?>
-    <?php include 'includes/giamgia.php'; ?>
-    <?php include 'includes/giaycaocap.php'; ?>
+    <?php include 'hangmoive.php'; ?>
+    <?php include 'giamgia.php'; ?>
+    <?php include 'giaycaocap.php'; ?>
     <?php include 'includes/loaigiay.php'; ?>
     <?php include 'includes/thuonghieu.php'; ?>
     <?php include 'includes/chonngaunhien.php'; ?>

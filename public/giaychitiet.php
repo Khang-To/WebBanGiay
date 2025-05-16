@@ -66,7 +66,7 @@ $stmt->close();
 <div class="container my-5">
   <div class="row">
     <div class="col-md-6">
-      <img src="../Uploads/<?= htmlspecialchars($giay['hinh_anh']) ?>" class="img-fluid rounded shadow" data-zoom-image alt="<?= htmlspecialchars($giay['ten_giay']) ?>" style="cursor: pointer;">
+      <img src="../uploads/<?= htmlspecialchars($giay['hinh_anh']) ?>" class="img-fluid rounded shadow" data-zoom-image alt="<?= htmlspecialchars($giay['ten_giay']) ?>" style="cursor: pointer;">
     </div>
     <div class="col-md-6">
       <h2><?= htmlspecialchars($giay['ten_giay']) ?></h2>
@@ -213,7 +213,7 @@ $stmt->close();
   </div>
 </div>
 
-<?php include 'includes/giaylienquan.php'; ?>
+<?php include 'giaylienquan.php'; ?>
 <?php include 'includes/footer.php'; ?>
 
 <!-- Nút quay lại đầu trang -->

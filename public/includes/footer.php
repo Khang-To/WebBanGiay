@@ -18,7 +18,7 @@
                     <li><a href="#" class="text-white text-decoration-none"><i class="fa-solid fa-truck me-2"></i>Chính sách giao hàng</a></li>
                     <li><a href="#" class="text-white text-decoration-none"><i class="fa-solid fa-shield-halved me-2"></i>Chính sách bảo mật</a></li>
                     <li><a href="#" class="text-white text-decoration-none"><i class="fa-solid fa-rotate-left me-2"></i>Chính sách đổi trả</a></li>
-                    <li><a href="#" class="text-white text-decoration-none"><i class="fa-solid fa-circle-question me-2"></i>Hướng dẫn mua hàng</a></li>
+                    <li><a href="huongdansd.php" class="text-white text-decoration-none"><i class="fa-solid fa-circle-question me-2"></i>Hướng dẫn mua hàng</a></li>
                 </ul>
             </div>
             

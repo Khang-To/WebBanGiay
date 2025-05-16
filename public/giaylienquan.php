@@ -22,7 +22,9 @@ $giay_lien_quan = $conn->query($giay_lien_quan_sql);
         <div class="col-md-2 col-6 mb-4">
   <a href="giaychitiet.php?id=<?= $sp['id'] ?>" class="text-decoration-none text-white">
     <div class="card bg-dark text-white h-100 shadow-sm border-light">
-      <img src="hinhanh.php?file=<?= urlencode($sp['hinh_anh']) ?>" class="card-img-top" style="height: 160px; object-fit: cover;">
+      <img src="hinh.php?file=<?= urlencode(htmlspecialchars($sp['hinh_anh'])) ?>" 
+     class="card-img-top" 
+     style="height: 160px; object-fit: cover;">
       <div class="card-body p-2">
         <h6 class="card-title mb-1" style="font-size: 14px;"><?= htmlspecialchars($sp['ten_giay']) ?></h6>
         <?php if ($sp['ti_le_giam_gia'] > 0): ?>
