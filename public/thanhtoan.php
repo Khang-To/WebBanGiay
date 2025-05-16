@@ -23,24 +23,50 @@ $stmt = $conn->prepare("UPDATE don_hang SET trang_thai = 'da_thanh_toan' WHERE i
 $stmt->bind_param("ii", $don_hang_id, $khach_hang_id);
 $stmt->execute();
 
+// Lấy thông tin đơn hàng
+$sql_don_hang = "SELECT dh.id, dh.ngay_dat, dh.ghi_chu, kh.ho_ten, kh.dia_chi, kh.so_dien_thoai
+                 FROM don_hang dh
+                 JOIN khach_hang kh ON dh.khach_hang_id = kh.id
+                 WHERE dh.id = ? AND dh.khach_hang_id = ?";
+$stmt_don_hang = $conn->prepare($sql_don_hang);
+$stmt_don_hang->bind_param("ii", $don_hang_id, $khach_hang_id);
+$stmt_don_hang->execute();
+$don_hang = $stmt_don_hang->get_result()->fetch_assoc();
+$stmt_don_hang->close();
+
 // Lấy chi tiết đơn hàng
-$sql = "SELECT ct.*, sg.so_luong_ton 
-        FROM chi_tiet_don_hang ct
-        JOIN size_giay sg ON ct.size_giay_id = sg.id
-        WHERE ct.don_hang_id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $don_hang_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$chi_tiets = $result->fetch_all(MYSQLI_ASSOC);
+$sql_chi_tiet = "SELECT ct.size_giay_id, ct.so_luong_ban, ct.don_gia_ban, g.ten_giay, sg.size
+                 FROM chi_tiet_don_hang ct
+                 JOIN size_giay sg ON ct.size_giay_id = sg.id
+                 JOIN giay g ON sg.giay_id = g.id
+                 WHERE ct.don_hang_id = ?";
+$stmt_chi_tiet = $conn->prepare($sql_chi_tiet);
+$stmt_chi_tiet->bind_param("i", $don_hang_id);
+$stmt_chi_tiet->execute();
+$chi_tiets = $stmt_chi_tiet->get_result()->fetch_all(MYSQLI_ASSOC);
+$stmt_chi_tiet->close();
+
+// Tính tổng tiền
+$tong_tien = 0;
+foreach ($chi_tiets as $ct) {
+    $tong_tien += $ct['so_luong_ban'] * $ct['don_gia_ban'];
+}
 
 // Trừ số lượng tồn kho
 foreach ($chi_tiets as $ct) {
-    $moi_so_luong = max(0, $ct['so_luong_ton'] - $ct['so_luong_ban']);
+    $stmt_kho = $conn->prepare("SELECT so_luong_ton FROM size_giay WHERE id = ?");
+    $stmt_kho->bind_param("i", $ct['size_giay_id']);
+    $stmt_kho->execute();
+    $so_luong_ton = $stmt_kho->get_result()->fetch_assoc()['so_luong_ton'];
+    $stmt_kho->close();
+
+    $moi_so_luong = max(0, $so_luong_ton - $ct['so_luong_ban']);
     $stmt_update = $conn->prepare("UPDATE size_giay SET so_luong_ton = ? WHERE id = ?");
     $stmt_update->bind_param("ii", $moi_so_luong, $ct['size_giay_id']);
     $stmt_update->execute();
+    $stmt_update->close();
 }
+
 
 // Xoá giỏ hàng sau khi thanh toán
 unset($_SESSION['giohang']);
@@ -60,12 +86,76 @@ unset($_SESSION['giohang']);
 <?php include 'includes/header.php'; ?>
 <?php include 'includes/nav.php'; ?>
 
-<div class="container py-5 text-center">
-    <h2><i class="bi bi-check-circle-fill text-success"></i> Cảm ơn bạn đã mua hàng!</h2>
-    <p class="fs-5">Đơn hàng <strong>#<?= $don_hang_id ?></strong> của bạn đã được thanh toán thành công, bộ phận giao hàng sẽ vận chuyển giày đến cho bạn với thời gian sớm nhất.</p>
-    <a href="index.php" class="btn btn-outline-light mt-3"><i class="bi bi-house"></i> Về trang chủ</a>
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h2><i class="bi bi-check-circle-fill text-success"></i> Cảm ơn bạn đã mua hàng!</h2>
+        <p class="fs-5">Đơn hàng <strong>#<?= $don_hang_id ?></strong> của bạn đã được thanh toán thành công. Bộ phận giao hàng sẽ vận chuyển giày đến cho bạn với thời gian sớm nhất.</p>
+    </div>
+
+    <!-- Thông tin hóa đơn -->
+    <div class="card bg-dark text-white border-secondary shadow-sm">
+        <div class="card-header">
+            <h4 class="mb-0"><i class="bi bi-receipt"></i> Chi tiết hóa đơn #<?= $don_hang_id ?></h4>
+        </div>
+        <div class="card-body">
+            <!-- Thông tin khách hàng -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h5>Thông tin khách hàng</h5>
+                    <p><strong>Họ tên:</strong> <?= htmlspecialchars($don_hang['ho_ten'] ?? 'N/A') ?></p>
+                    <p><strong>Địa chỉ:</strong> <?= htmlspecialchars($don_hang['dia_chi'] ?? 'N/A') ?></p>
+                    <p><strong>Số điện thoại:</strong> <?= htmlspecialchars($don_hang['so_dien_thoai'] ?? 'N/A') ?></p>
+                </div>
+                <div class="col-md-6">
+                    <h5>Thông tin đơn hàng</h5>
+                    <p><strong>Mã đơn hàng:</strong> #<?= $don_hang_id ?></p>
+                    <p><strong>Ngày đặt:</strong> <?= date('d/m/Y H:i', strtotime($don_hang['ngay_dat'])) ?></p>
+                    <p><strong>Ghi chú:</strong> <?= htmlspecialchars($don_hang['ghi_chu'] ?? 'Không có') ?></p>
+                </div>
+            </div>
+
+            <!-- Danh sách sản phẩm -->
+            <h5>Danh sách sản phẩm</h5>
+            <div class="table-responsive">
+                <table class="table table-dark table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Size</th>
+                            <th>Số lượng</th>
+                            <th>Đơn giá</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($chi_tiets as $ct): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($ct['ten_giay']) ?></td>
+                                <td><?= $ct['size'] ?></td>
+                                <td><?= $ct['so_luong_ban'] ?></td>
+                                <td><?= number_format($ct['don_gia_ban']) ?>₫</td>
+                                <td><?= number_format($ct['so_luong_ban'] * $ct['don_gia_ban']) ?>₫</td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" class="text-end"><strong>Tổng tiền:</strong></td>
+                            <td><strong><?= number_format($tong_tien) ?>₫</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="index.php" class="btn btn-outline-light"><i class="bi bi-house"></i> Về trang chủ</a>
+        <a href="donhang.php" class="btn btn-outline-primary ms-2"><i class="bi bi-search"></i> Xem đơn hàng</a>
+    </div>
 </div>
 
 <?php include 'includes/footer.php'; ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

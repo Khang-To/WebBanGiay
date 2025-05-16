@@ -12,7 +12,7 @@
 /* nut top */ 
 .back-to-top {
     position: fixed;
-    bottom: 30px;
+    bottom: 100px;
     right: 30px;
     display: none;
     z-index: 999;
@@ -23,6 +23,7 @@
     align-items: center;
     justify-content: center;
 }
+
 
 /* Header chính */
 .main-header {
