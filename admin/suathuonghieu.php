@@ -1,38 +1,39 @@
 <?php
-include 'includes/auth_admin.php';
-include 'includes/db.php';
-include 'includes/thongbao.php';
+  include 'includes/auth_admin.php';
+  include 'includes/db.php';
+  include_once 'includes/thongbao.php';
 
-$id = intval($_GET['id'] ?? 0);
-if ($id <= 0) {
-    flashMessage('error', 'ID không hợp lệ!');
-    exit;
-}
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $ten = trim($_POST['ten_thuong_hieu'] ?? '');
-    if ($ten !== '') {
-        $stmt = $conn->prepare("UPDATE thuong_hieu SET ten_thuong_hieu = ? WHERE id = ?");
-        $stmt->bind_param("si", $ten, $id);
-        if ($stmt->execute()) {
-            flashMessage('success', 'Đã cập nhật thương hiệu!');
-        } else {
-            flashMessage('error', 'Lỗi: ' . $conn->error);
-        }
-    } else {
-        flashMessage('warning', 'Không được để trống tên!');
-    }
-}
+  $id = intval($_GET['id'] ?? 0);
+  if ($id <= 0) {
+      flashMessage('error', 'ID không hợp lệ!');
+      exit;
+  }
 
-// Lấy dữ liệu hiện tại
-$stmt = $conn->prepare("SELECT ten_thuong_hieu FROM thuong_hieu WHERE id = ?");
-$stmt->bind_param("i", $id);
-$stmt->execute();
-$stmt->bind_result($ten_hien_tai);
-$stmt->fetch();
-$stmt->close();
+  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      $ten = trim($_POST['ten_thuong_hieu'] ?? '');
+      if ($ten !== '') {
+          $stmt = $conn->prepare("UPDATE thuong_hieu SET ten_thuong_hieu = ? WHERE id = ?");
+          $stmt->bind_param("si", $ten, $id);
+          if ($stmt->execute()) {
+              flashMessage('success', 'Đã cập nhật thương hiệu!');
+          } else {
+              flashMessage('error', 'Lỗi: ' . $conn->error);
+          }
+      } else {
+          flashMessage('warning', 'Không được để trống tên!');
+      }
+  }
 
-include 'includes/header.php';
+  // Lấy dữ liệu hiện tại
+  $stmt = $conn->prepare("SELECT ten_thuong_hieu FROM thuong_hieu WHERE id = ?");
+  $stmt->bind_param("i", $id);
+  $stmt->execute();
+  $stmt->bind_result($ten_hien_tai);
+  $stmt->fetch();
+  $stmt->close();
+
+  include 'includes/header.php';
 ?>
 
 <div class="container">

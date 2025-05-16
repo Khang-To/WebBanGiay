@@ -1,6 +1,7 @@
 <?php
     include 'includes/db.php';
     include 'auth_admin.php';
+    include_once 'includes/thongbao.php';
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -35,8 +36,8 @@
                 </li>
                 <li class="nav-item"><a class="nav-link" href="themthuonghieu.php">Quản lý thương hiệu</a></li>
                 <li class="nav-item"><a class="nav-link" href="themloaigiay.php">Quản lý loại giày</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Quản lý khách hàng</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Quản lý đơn hàng</a></li>
+                <li class="nav-item"><a class="nav-link" href="danhsach_khachhang.php">Quản lý khách hàng</a></li>
+                <li class="nav-item"><a class="nav-link" href="danhsachdonhang.php">Quản lý đơn hàng</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button">
                         Quản lý hồ sơ
@@ -55,4 +56,5 @@
     </nav>
 
     <div class="container mt-4">
+    <?php flashMessage(); ?>
 

@@ -1,7 +1,7 @@
 <?php
 	include 'includes/db.php';				//kết nối database
 	include 'includes/auth_admin.php';      // Kiểm tra đăng nhập
-	include 'includes/thongbao.php';              // thông báo
+	include_once 'includes/thongbao.php';              // thông báo
 
 	//xử lý khi submit form
 	if($_SERVER['REQUEST_METHOD'] === 'POST'){

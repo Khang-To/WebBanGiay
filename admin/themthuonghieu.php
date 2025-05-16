@@ -1,7 +1,8 @@
 <?php
 include 'includes/auth_admin.php';
 include 'includes/db.php';
-include 'includes/thongbao.php';
+include_once 'includes/thongbao.php';
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ten = trim($_POST['ten_thuong_hieu'] ?? '');
