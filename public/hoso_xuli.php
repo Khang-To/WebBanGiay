@@ -41,10 +41,13 @@ if (isset($_POST['ho_ten'], $_POST['dia_chi'], $_POST['so_dien_thoai']) && empty
     $_SESSION['thongbao_thongtin'] = "Cập nhật thông tin thành công!";
 
     // Nếu người dùng đang quay lại từ trang xác nhận, chuyển đến trang đặt hàng
-    if (isset($_SESSION['quay_lai_xacnhan']) && $_SESSION['quay_lai_xacnhan'] === true) {
-        unset($_SESSION['quay_lai_xacnhan']);
-        header("Location: dathang.php");
-    } else {
+    if (isset($_SESSION['quay_lai_xacnhan']) && is_string($_SESSION['quay_lai_xacnhan'])) {
+    $trang_quay_lai = $_SESSION['quay_lai_xacnhan'];
+    unset($_SESSION['quay_lai_xacnhan']);
+    header("Location: $trang_quay_lai");
+    exit;
+}
+ else {
         header("Location: hoso.php");
     }
     exit();
