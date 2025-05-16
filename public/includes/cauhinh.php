@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";     
 $username = "root";           
-$password = "vertrigo";               
+$password = "";               
 $dbname = "shop_giay";         
 
 // Tạo kết nối

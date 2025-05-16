@@ -13,10 +13,10 @@ $result_loai = $conn->query($sql_loai);
             <?php
                 $filename = to_filename($row['ten_loai']) . '.webp';
                 $image_path = "images/$filename";
-                $real_path = $_SERVER['DOCUMENT_ROOT'] . '/WebBanGiay/public/' . $image_path;
-
-                if (!file_exists($real_path)) {
+                if (!file_exists("images/$filename")) {
                     $image_path = "images/default.webp";
+                } else {
+                    $image_path = "images/$filename";
                 }
             ?>
             <div class="col-md-3 mb-4">

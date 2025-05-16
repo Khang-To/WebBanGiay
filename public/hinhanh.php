@@ -6,19 +6,19 @@ if (!isset($_GET['file'])) {
     exit('Thiếu tên file ảnh.');
 }
 
-$filename = basename($_GET['file']); // bảo vệ không cho truy cập ../
-$path = realpath(__DIR__ . '/../uploads/' . $filename);
+$filename = basename($_GET['file']); // Ngăn truy cập ../
+$relativePath = '../uploads/' . $filename;
 
-// Kiểm tra file có tồn tại và thuộc đúng thư mục uploads
-if (!$path || strpos($path, realpath(__DIR__ . '/../uploads')) !== 0 || !file_exists($path)) {
+// Kiểm tra file tồn tại và nằm đúng thư mục
+if (!file_exists($relativePath) || !is_file($relativePath)) {
     http_response_code(404);
     exit('Ảnh không tồn tại.');
 }
 
-// Xác định loại file để trình duyệt hiểu (jpg, png,...)
+// Xác định loại file để trình duyệt hiểu
 $finfo = finfo_open(FILEINFO_MIME_TYPE);
-$mime = finfo_file($finfo, $path);
+$mime = finfo_file($finfo, $relativePath);
 finfo_close($finfo);
 
 header('Content-Type: ' . $mime);
-readfile($path);
+readfile($relativePath);
