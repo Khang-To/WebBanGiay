@@ -1,4 +1,4 @@
-<?php include 'cauhinh.php'; ?>
+<?php include 'includes/cauhinh.php'; ?>
 
 <section class="container py-5 text-light" style="background-color: #1a1a1a;">
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -35,7 +35,10 @@
                     <a href="giaychitiet.php?id=<?= $row['id'] ?>" class="text-decoration-none">
                         <div class="card bg-dark text-white h-100 shadow-sm border-0 position-relative">
                             <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-2">Cao Cấp</span>
-                            <img src="hinhanh.php?file=<?= urlencode($row['hinh_anh']) ?>" class="card-img-top" alt="<?= htmlspecialchars($row['ten_giay']) ?>" style="height:200px; object-fit:cover;">
+                           <img src="hinh.php?file=<?= urlencode(htmlspecialchars($row['hinh_anh'])) ?>" 
+                            class="card-img-top" 
+                            alt="<?= htmlspecialchars($row['ten_giay']) ?>" 
+                            style="height:200px; object-fit:cover;">
                             <div class="card-body">
                                 <h6 class="card-subtitle text-muted"><?= $row['ten_thuong_hieu'] ?></h6>
                                 <h5 class="card-title fw-bold text-light" style="

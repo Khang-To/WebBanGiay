@@ -23,9 +23,10 @@ $dia_chi = $_SESSION['taikhoan']['dia_chi'] ?? '';
 $email = $_SESSION['taikhoan']['email'] ?? '';
 $so_dien_thoai = $_SESSION['taikhoan']['so_dien_thoai'] ?? '';
 
-// Yêu cầu cập nhật hồ sơ nếu thiếu
-if (empty(trim($ho_ten)) || empty(trim($dia_chi)) || empty(trim($so_dien_thoai))) {
-    $_SESSION['quay_lai_xacnhan'] = true;
+// Kiểm tra thông tin khách hàng
+if (empty(trim($_SESSION['taikhoan']['ho_ten'])) || empty(trim($_SESSION['taikhoan']['dia_chi'])) || empty(trim($_SESSION['taikhoan']['so_dien_thoai']))) {
+    // Lưu tham số GET vào session để sử dụng khi quay lại
+    $_SESSION['quay_lai_xacnhan'] = 'dathangngay.php?id=' . urlencode($id) . '&size=' . urlencode($size) . '&soluong=' . urlencode($soluong);
     echo '<script>alert("Vui lòng cập nhật hồ sơ trước khi đặt hàng.");window.location.href="hoso.php";</script>';
     exit;
 }

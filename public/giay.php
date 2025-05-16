@@ -82,7 +82,7 @@ $ds_size = $conn->query("SELECT DISTINCT size FROM size_giay ORDER BY size");
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Blue Eagle Shoes - Giày là đam mê</title>
+    <title>Blue Eagle Store - Giày là đam mê</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="images/logo.png" type="image/png">
     <script src="js/dropdown-hover.js"></script>
@@ -272,7 +272,7 @@ function submitFilter() {
                     <div class="col-md-4 mb-4">
                         <div class="card h-100 shadow-sm border-0 bg-dark text-white brand-card card-link">
                             <a href="giaychitiet.php?id=<?= $sp['id'] ?>">
-                                <img src="../Uploads/<?= $sp['hinh_anh'] ?>" class="card-img-top" style="height: 200px; object-fit: cover;">
+                                <img src="../uploads/<?= $sp['hinh_anh'] ?>" class="card-img-top" style="height: 200px; object-fit: cover;">
                             </a>
                             <div class="card-body d-flex flex-column justify-content-between">
                                 <div>

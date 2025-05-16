@@ -25,11 +25,10 @@ $email   = $_SESSION['taikhoan']['email'] ?? '';
 
 // Kiểm tra thông tin đã được cập nhật trong session
 if (empty(trim($_SESSION['taikhoan']['ho_ten'])) || empty(trim($_SESSION['taikhoan']['dia_chi'])) || empty(trim($_SESSION['taikhoan']['so_dien_thoai']))) {
-    $_SESSION['quay_lai_xacnhan'] = true;
+    $_SESSION['quay_lai_xacnhan'] = 'dathang.php';
     echo '<script>alert("Vui lòng cập nhật hồ sơ trước khi đặt hàng.");window.location.href="hoso.php";</script>';
     exit;
 }
-
 
 // Tính tổng tiền
 $tong_tien = 0;
