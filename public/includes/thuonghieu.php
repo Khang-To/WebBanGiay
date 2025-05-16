@@ -13,10 +13,10 @@ $result = $conn->query($sql);
             <?php
                 $filename = to_filename($row['ten_thuong_hieu']) . '.webp';
                 $image_path = "images/$filename";
-                $real_path = $_SERVER['DOCUMENT_ROOT'] . '/WebBanGiay/public/' . $image_path;
-
-                if (!file_exists($real_path)) {
+                if (!file_exists("images/$filename")) {
                     $image_path = "images/default.webp";
+                } else {
+                    $image_path = "images/$filename";
                 }
             ?>
             <div class="col-md-4 mb-4">

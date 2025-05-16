@@ -1,9 +1,47 @@
 <?php
 include_once 'cauhinh.php';
 
-$sql_moi = "SELECT * FROM giay ORDER BY id DESC LIMIT 10";
+$sql_moi = "SELECT * FROM giay ORDER BY id DESC LIMIT 18";
 $kq_moi = mysqli_query($conn, $sql_moi);
+
+// Lưu kết quả vào mảng
+$ds_giay = [];
+while ($row = mysqli_fetch_assoc($kq_moi)) {
+    $ds_giay[] = $row;
+}
 ?>
+
+<style>
+/* Ẩn thanh cuộn trên mọi trình duyệt */
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+/* Nút điều hướng */
+.custom-carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 45px;
+  height: 45px;
+  background-color: #ffc107;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  opacity: 0.9;
+  transition: all 0.3s ease;
+}
+.custom-carousel-btn:hover {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.1);
+}
+.left-btn { left: -20px; }
+.right-btn { right: -20px; }
+</style>
 
 <section class="container py-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
@@ -11,21 +49,23 @@ $kq_moi = mysqli_query($conn, $sql_moi);
     <a href="giay.php" class="btn btn-outline-warning">Xem tất cả</a>
   </div>
 
-  <div id="hangMoiCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <?php
-      $count = 0;
-      while ($row = mysqli_fetch_assoc($kq_moi)) {
-          if ($count % 5 == 0) {
-              if ($count > 0) echo '</div></div>'; // đóng slide cũ
-              echo '<div class="carousel-item'.($count == 0 ? ' active' : '').'"><div class="row g-4">';
-          }
+  <div class="position-relative">
+    <!-- Nút điều hướng -->
+    <button class="custom-carousel-btn left-btn" onclick="scrollHangMoi(-1)">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    </button>
+    <button class="custom-carousel-btn right-btn" onclick="scrollHangMoi(1)">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    </button>
 
-          $gia_cu = $row['don_gia'];
-          $giam = $row['ti_le_giam_gia'];
-          $gia_moi = $gia_cu * (1 - $giam / 100);
+    <!-- Danh sách giày dạng ngang -->
+    <div id="hangMoiList" class="d-flex overflow-auto scroll-smooth hide-scrollbar">
+      <?php foreach ($ds_giay as $row): 
+        $gia_cu = $row['don_gia'];
+        $giam = $row['ti_le_giam_gia'];
+        $gia_moi = $gia_cu * (1 - $giam / 100);
       ?>
-      <div class="col-6 col-md-4 col-lg-2">
+      <div class="me-3" style="min-width: 170px;">
         <a href="giaychitiet.php?id=<?= $row['id'] ?>" class="text-decoration-none text-white">
           <div class="card h-100 bg-dark text-white border-0 shadow-sm position-relative">
             <?php if ($giam > 0): ?>
@@ -48,18 +88,19 @@ $kq_moi = mysqli_query($conn, $sql_moi);
           </div>
         </a>
       </div>
-      <?php
-          $count++;
-      }
-      if ($count > 0) echo '</div></div>'; // đóng slide cuối
-      ?>
+      <?php endforeach; ?>
     </div>
-
-    <button class="carousel-control-prev" type="button" data-bs-target="#hangMoiCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#hangMoiCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
-    </button>
   </div>
 </section>
+<script>
+function scrollHangMoi(direction) {
+  const container = document.getElementById('hangMoiList');
+  const scrollAmount = 180; // chiều rộng mỗi item + margin
+
+  container.scrollBy({
+    left: direction * scrollAmount,
+    behavior: 'smooth'
+  });
+}
+</script>
+

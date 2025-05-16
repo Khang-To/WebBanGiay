@@ -5,14 +5,14 @@
 }
 
 .bg-gradient-gray-black {
-    background: linear-gradient(to top, #303438, #000000);
+    background: linear-gradient(to top, #485461, #121314);
     color: white;
 }
 
 /* nut top */ 
 .back-to-top {
     position: fixed;
-    bottom: 30px;
+    bottom: 100px;
     right: 30px;
     display: none;
     z-index: 999;
@@ -23,6 +23,7 @@
     align-items: center;
     justify-content: center;
 }
+
 
 /* Header chính */
 .main-header {

@@ -22,24 +22,34 @@ if (!$taikhoan) {
     exit();
 }
 
-// ==== CẬP NHẬT THÔNG TIN CÁ NHÂN ====
-if (isset($_POST['ho_ten'], $_POST['dia_chi']) && empty($_POST['mat_khau_cu'])) {
+// ==== CẬP NHẬT THÔNG TIN CÁ NHÂN ==== 
+if (isset($_POST['ho_ten'], $_POST['dia_chi'], $_POST['so_dien_thoai']) && empty($_POST['mat_khau_cu'])) {
     $ho_ten = trim($_POST['ho_ten']);
     $dia_chi = trim($_POST['dia_chi']);
+    $so_dien_thoai = trim($_POST['so_dien_thoai']);  // Lấy số điện thoại từ form
 
-    $sql_update_info = "UPDATE khach_hang SET ho_ten = ?, dia_chi = ? WHERE tai_khoan = ?";
+    $sql_update_info = "UPDATE khach_hang SET ho_ten = ?, dia_chi = ?, so_dien_thoai = ? WHERE tai_khoan = ?";
     $stmt_info = $conn->prepare($sql_update_info);
-    $stmt_info->bind_param("sss", $ho_ten, $dia_chi, $taikhoan);
+    $stmt_info->bind_param("ssss", $ho_ten, $dia_chi, $so_dien_thoai, $taikhoan);
     $stmt_info->execute();
 
-    // Cập nhật session để hiển thị lại thông tin mới (nếu cần)
+    // Cập nhật session để hiển thị lại thông tin mới
     $_SESSION['taikhoan']['ho_ten'] = $ho_ten;
     $_SESSION['taikhoan']['dia_chi'] = $dia_chi;
+    $_SESSION['taikhoan']['so_dien_thoai'] = $so_dien_thoai;  // Cập nhật số điện thoại trong session
 
     $_SESSION['thongbao_thongtin'] = "Cập nhật thông tin thành công!";
-    header("Location: hoso.php");
+
+    // Nếu người dùng đang quay lại từ trang xác nhận, chuyển đến trang đặt hàng
+    if (isset($_SESSION['quay_lai_xacnhan']) && $_SESSION['quay_lai_xacnhan'] === true) {
+        unset($_SESSION['quay_lai_xacnhan']);
+        header("Location: dathang.php");
+    } else {
+        header("Location: hoso.php");
+    }
     exit();
 }
+
 
 // ==== ĐỔI MẬT KHẨU ====
 if (isset($_POST['mat_khau_cu'], $_POST['mat_khau_moi'], $_POST['mat_khau_lai'])) {

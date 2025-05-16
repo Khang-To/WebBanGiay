@@ -4,6 +4,22 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 include 'includes/cauhinh.php';
 $user = $_SESSION['taikhoan'] ?? null;
+
+// Đếm số đơn hàng có trạng thái 'da_xac_nhan'
+$so_don_hang_thanh_toan = 0;
+if ($user && is_array($user) && isset($user['id'])) {
+    $user_id = $user['id'];
+    $sql_don_hang = "SELECT COUNT(*) as tong_don_hang 
+                     FROM don_hang 
+                     WHERE khach_hang_id = ? AND trang_thai = 'da_xac_nhan'";
+    $stmt = $conn->prepare($sql_don_hang);
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $so_don_hang_thanh_toan = $row['tong_don_hang'] ?? 0;
+    $stmt->close();
+}
 ?>
 <!-- Wrapper -->
 <div>
@@ -23,6 +39,9 @@ $user = $_SESSION['taikhoan'] ?? null;
                     if ($user && is_array($user)) {
                         $name = !empty($user['ho_ten']) ? $user['ho_ten'] : (!empty($user['tai_khoan']) ? $user['tai_khoan'] : 'Tài khoản');
                         echo "Xin chào: " . htmlspecialchars($name);
+                        if ($so_don_hang_thanh_toan > 0) {
+                            echo ' <span class="badge rounded-pill bg-danger ms-1"><i class="bi bi-bell-fill"></i> ' . $so_don_hang_thanh_toan . '</span>';
+                        }
                     } else {
                         echo "Tài khoản";
                     }
@@ -31,8 +50,17 @@ $user = $_SESSION['taikhoan'] ?? null;
                 <ul class="dropdown-menu dropdown-menu-end">
                     <?php if (isset($_SESSION['taikhoan']) && is_array($_SESSION['taikhoan'])): ?>
                         <li><a class="dropdown-item" href="giohang.php"><i class="bi bi-cart-check me-1"></i> Giỏ hàng</a></li>
-                        <li><a class="dropdown-item" href="thanhtoan.php"><i class="bi bi-credit-card me-1"></i> Thanh toán</a></li>
-                        <li><a class="dropdown-item" href="tracuu.php"><i class="bi bi-search me-1"></i> Tra cứu đơn hàng</a></li>
+                        <li>
+                            <a class="dropdown-item" href="tracuuthanhtoan.php">
+                                <i class="bi bi-credit-card me-1"></i> Thanh toán
+                                <?php if ($so_don_hang_thanh_toan > 0): ?>
+                                    <span class="badge rounded-pill bg-danger ms-1">
+                                        <?= $so_don_hang_thanh_toan ?>
+                                    </span>
+                                <?php endif; ?>
+                            </a>
+                        </li>
+                        <li><a class="dropdown-item" href="donhang.php"><i class="bi bi-search me-1"></i> Tra cứu đơn hàng</a></li>
                         <li><a class="dropdown-item text-danger" href="dangxuat.php"><i class="bi bi-box-arrow-right me-1"></i> Đăng xuất</a></li>
                     <?php else: ?>
                         <li><a class="dropdown-item" href="dangky.php"><i class="bi bi-person-plus me-1"></i> Đăng ký</a></li>
@@ -53,14 +81,14 @@ $user = $_SESSION['taikhoan'] ?? null;
 
             <!-- Tìm kiếm -->
             <form action="giay.php" method="GET" class="w-50" id="form-timkiem">
-    <div class="input-group">
-        <input type="text" id="tu_khoa" name="tu_khoa" class="form-control" placeholder="Tìm kiếm..." autocomplete="off">
-        <button class="btn btn-primary" type="submit" id="btn-timkiem">
-            <i class="bi bi-search"></i>
-        </button>
-    </div>
-    <div id="suggestion-box"></div>
-</form>
+                <div class="input-group">
+                    <input type="text" id="tu_khoa" name="tu_khoa" class="form-control" placeholder="Tìm kiếm..." autocomplete="off">
+                    <button class="btn btn-primary" type="submit" id="btn-timkiem">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+                <div id="suggestion-box"></div>
+            </form>
             <script src="js/timkiem.js"></script>
 
             <!-- Tài khoản + Giỏ hàng -->
@@ -100,5 +128,10 @@ $user = $_SESSION['taikhoan'] ?? null;
         padding: 4px 6px;
         font-weight: bold;
         box-shadow: 0 0 5px rgba(255, 0, 0, 0.6);
+        vertical-align: middle;
+    }
+    .badge.bg-danger .bi-bell-fill {
+        font-size: 0.7rem;
+        vertical-align: middle;
     }
 </style>

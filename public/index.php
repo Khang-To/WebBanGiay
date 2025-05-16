@@ -37,5 +37,7 @@
     <button type="button" class="btn btn-warning btn-lg rounded-circle shadow back-to-top" id="btn-back-to-top">
   <i class="bi bi-arrow-up"></i>
 </button>
+    <?php include 'includes/chat.php'; ?>
+</button>
 </body>
 </html>

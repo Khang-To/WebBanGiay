@@ -6,21 +6,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $taikhoan = trim($_POST['taikhoan']);
     $matkhau = md5(trim($_POST['matkhau'])); // Mã hóa MD5
 
-    $stmt = $conn->prepare("SELECT id, ho_ten FROM khach_hang WHERE tai_khoan = ? AND mat_khau = ?");
-    $stmt->bind_param("ss", $taikhoan, $matkhau);
-    $stmt->execute();
-    $stmt->store_result();
+$stmt = $conn->prepare("SELECT id, ho_ten, email, dia_chi, so_dien_thoai FROM khach_hang WHERE tai_khoan = ? AND mat_khau = ?");
+$stmt->bind_param("ss", $taikhoan, $matkhau);
+$stmt->execute();
+$stmt->store_result();
+if ($stmt->num_rows == 1) {
+$stmt->bind_result($id, $ho_ten, $email, $dia_chi, $so_dien_thoai);
+    $stmt->fetch();
+    $_SESSION['taikhoan'] = [
+    'id' => $id,
+    'tai_khoan' => $taikhoan,
+    'ho_ten' => $ho_ten,
+    'email' => $email,
+    'dia_chi' => $dia_chi,
+    'so_dien_thoai' => $so_dien_thoai
+];
+    $_SESSION['khach_hang_id'] = $id; // Thêm dòng này
 
-    if ($stmt->num_rows == 1) {
-        $stmt->bind_result($id, $ho_ten);
-        $stmt->fetch();
-
-        // Lưu thông tin tài khoản vào session
-        $_SESSION['taikhoan'] = [
-            'id' => $id,
-            'tai_khoan' => $taikhoan,
-            'ho_ten' => $ho_ten
-        ];
 
         // 🔁 Khôi phục giỏ hàng từ cookie nếu có
         if (isset($_COOKIE['cart_backup'])) {
