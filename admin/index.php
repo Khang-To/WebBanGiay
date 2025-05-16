@@ -34,7 +34,7 @@
                 <h5 class="card-title">Tổng khách hàng (<?= $tong_khach ?>)</h5>
                 <hr class="my-2 border-light">
                 <div class="d-flex justify-content-between align-items-center">
-                    <a href="don_hang.php" class="text-white text-decoration-none">Chi tiết</a>
+                    <a href="danhsach_khachhang.php" class="text-white text-decoration-none">Chi tiết</a>
                     <span class="text-white fw-bold">&raquo;</span>
                 </div>
             </div>

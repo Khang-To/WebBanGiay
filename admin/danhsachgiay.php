@@ -1,14 +1,13 @@
 <?php
     include 'includes/db.php';
     include 'includes/auth_admin.php';
-    include 'includes/thongbao.php';
 
     // ===== PHÂN TRANG + TÌM KIẾM =====
     $limit = 4;
     $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
     $offset = ($page - 1) * $limit;
 
-    $search = $_GET['search'] ?? '';
+    $search = trim(preg_replace('/\s+/', ' ', $_GET['search'] ?? ''));
     $thuong_hieu_id = $_GET['thuong_hieu_id'] ?? '';
     $loai_giay_id = $_GET['loai_giay_id'] ?? '';
 
@@ -17,8 +16,9 @@
     $types = '';
 
     if ($search !== '') {
-        $where .= " AND g.ten_giay LIKE ?";
-        $params[] = "%$search%";
+        $clean = strtolower($search);
+        $where .= " AND LOWER(g.ten_giay) LIKE ?";
+        $params[] = "%$clean%";
         $types .= 's';
     }
     if ($thuong_hieu_id !== '') {

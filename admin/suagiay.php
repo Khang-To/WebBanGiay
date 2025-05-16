@@ -1,7 +1,7 @@
 <?php
     include 'includes/auth_admin.php';
     include 'includes/db.php';
-    include 'includes/thongbao.php';
+    include_once 'includes/thongbao.php';
 
     $id = intval($_GET['id'] ?? 0);
     if ($id <= 0) {

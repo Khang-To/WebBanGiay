@@ -1,7 +1,7 @@
 </div> <!-- Đóng container -->
 
 <footer class="text-center text-muted mt-5 py-3 border-top">
-    &copy; <?= date('Y') ?> Shop Giày | Trang quản trị
+    &copy; <?= date('Y') ?> Blue Eagle Store | Trang quản trị
 </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
