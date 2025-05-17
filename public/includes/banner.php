@@ -151,8 +151,8 @@
     <div class="swiper-slide">
       <img src="images/banner1.webp" alt="Banner 1">
       <div class="content">
-        <h2>Khám Phá Bộ Sưu Tập Mới</h2>
-        <p>Giày bóng đá chất lượng từ Blue Eagle</p>
+        <h2>Chào mừng bạn đến với <strong>BLUE EAGLE STORE</strong></h2>
+        <p>Khám phá kho giày đồ sộ của chúng tôi</p>
         <a href="giay.php" class="btn">Mua Ngay</a>
       </div>
     </div>
