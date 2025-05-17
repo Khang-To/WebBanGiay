@@ -7,7 +7,8 @@
 <html lang="vi">
     <head>
         <meta charset="UTF-8">
-        <title>Quản trị | Shop Giày</title>
+        <title>Quản trị | Blue Eagle Store</title>
+        <link rel="icon" type="image/jpg" href="images\logo-shop.jpg">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -19,10 +20,8 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top shadow">
         <div class="container">
+            <a class="navbar-brand" href="index.php"><img src="images\logo-shop.jpg" width="100" height="auto"></a>
             <ul class="navbar-nav">
-                <li class="nav-item" style="padding-top: 3px;">
-                    <a class="navbar-brand" href="index.php">Quản trị shop</a>
-                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                         Quản lý giày
@@ -43,8 +42,8 @@
                         Quản lý hồ sơ
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Thông tin cá nhân</a></li>
-                        <li><a class="dropdown-item" href="#">Đổi mật khẩu</a></li>
+                        <li><a class="dropdown-item" href="hosoadmin.php">Thông tin cá nhân</a></li>
+                        <li><a class="dropdown-item" href="doimatkhauadmin">Đổi mật khẩu</a></li>
                     </ul>
                 </li>
             </ul>
