@@ -24,12 +24,12 @@
             
             <!-- Cột 3: Liên hệ -->
             <div class="col-lg-3 col-md-6 mb-4 text-center" data-aos="fade-up">
-                <h6 class="fw-bold">LIÊN HỆ</h6>
+                <h6 class="fw-bold">THÔNG TIN LIÊN HỆ</h6>
                 <ul class="list-unstyled small">
                     <li><i class="fa-solid fa-phone me-2"></i>0123 456 789</li>
                     <li><i class="fa-solid fa-envelope me-2"></i>contact@blueeagle.vn</li>
                     <li class="mt-2">
-                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.facebook.com/profile.php?id=61554853380334" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
                         <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
                     </li>

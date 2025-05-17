@@ -65,7 +65,7 @@ while ($row = mysqli_fetch_assoc($kq_moi)) {
         $giam = $row['ti_le_giam_gia'];
         $gia_moi = $gia_cu * (1 - $giam / 100);
       ?>
-      <div class="me-3" style="min-width: 170px;">
+      <div class="me-3" style="width: 170px; flex-shrink: 0;">
         <a href="giaychitiet.php?id=<?= $row['id'] ?>" class="text-decoration-none text-white">
           <div class="card h-100 bg-dark text-white border-0 shadow-sm position-relative">
             <?php if ($giam > 0): ?>

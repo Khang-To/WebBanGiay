@@ -21,23 +21,25 @@
     <script src="js/back-to-top.js"></script>
     <script src="js/carousel-controls.js"></script>
 </head>
-
 <body class="bg-gradient-gray-black">
     <?php include 'includes/header.php'; ?>
     <?php include 'includes/nav.php'; ?>
     <?php include 'includes/banner.php'; ?>
-    <?php include 'hangmoive.php'; ?>
-    <?php include 'giamgia.php'; ?>
-    <?php include 'giaycaocap.php'; ?>
-    <?php include 'includes/loaigiay.php'; ?>
-    <?php include 'includes/thuonghieu.php'; ?>
-    <?php include 'includes/chonngaunhien.php'; ?>
-    <?php include 'includes/tintuc.php'; ?>
+
+    <div class="my-4"><?php include 'hangmoive.php'; ?></div>
+    <div class="my-4"><?php include 'giamgia.php'; ?></div>
+    <div class="my-4"><?php include 'giaycaocap.php'; ?></div>
+    <div class="my-4"><?php include 'includes/loaigiay.php'; ?></div>
+    <div class="my-4"><?php include 'includes/thuonghieu.php'; ?></div>
+    <div class="my-4"><?php include 'includes/chonngaunhien.php'; ?></div>
+    <div class="my-4"><?php include 'includes/tintuc.php'; ?></div>
+
     <?php include 'includes/footer.php'; ?>
+
     <button type="button" class="btn btn-warning btn-lg rounded-circle shadow back-to-top" id="btn-back-to-top">
-  <i class="bi bi-arrow-up"></i>
-</button>
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
     <?php include 'includes/chat.php'; ?>
-</button>
 </body>
 </html>

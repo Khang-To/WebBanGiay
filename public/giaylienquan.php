@@ -42,7 +42,7 @@ $giay_lien_quan = $conn->query($giay_lien_quan_sql);
 
     <?php if ($giay_lien_quan->num_rows > 5): ?>
       <div class="text-end">
-        <a href="giay.php?thuonghieu_id=<?= $thuonghieu_id ?>" class="btn btn-outline-light">Xem thêm →</a>
+        <a href="giay.php?thuong_hieu=<?= $thuonghieu_id ?>" class="btn btn-outline-light">Xem thêm →</a>
       </div>
     <?php endif; ?>
   </div>
