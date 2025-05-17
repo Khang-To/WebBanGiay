@@ -31,7 +31,7 @@
             <div class="position-absolute top-0 start-0 bg-danger px-2 py-1 text-white small rounded-end">
               -<?= $giam ?>%
             </div>
-           <img src="hinh.php?file=<?= urlencode(htmlspecialchars($row['hinh_anh'])) ?>" 
+          <img src="../uploads/<?= htmlspecialchars($row['hinh_anh']) ?>"
             class="card-img-top" 
             alt="<?= htmlspecialchars($row['ten_giay']) ?>" 
             style="height: 200px; object-fit: cover;">

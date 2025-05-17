@@ -35,7 +35,7 @@
                     <a href="giaychitiet.php?id=<?= $row['id'] ?>" class="text-decoration-none">
                         <div class="card bg-dark text-white h-100 shadow-sm border-0 position-relative">
                             <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-2">Cao Cấp</span>
-                           <img src="hinh.php?file=<?= urlencode(htmlspecialchars($row['hinh_anh'])) ?>" 
+                            <img src="../uploads/<?= htmlspecialchars($row['hinh_anh']) ?>"  
                             class="card-img-top" 
                             alt="<?= htmlspecialchars($row['ten_giay']) ?>" 
                             style="height:200px; object-fit:cover;">
