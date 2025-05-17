@@ -22,7 +22,7 @@
     <div class="container py-5">
         <div class="text-center mb-5">
             <h1 class="fw-bold text-warning">Giới thiệu về Blue Eagle</h1>
-            <p class="text-light fst-italic">\u0110am mê bóng đá - Tinh thần sinh viên - Khát vọng bay xa</p>
+            <p class="text-light fst-italic">Đam mê bóng đá - Tinh thần sinh viên - Khát vọng bay xa</p>
         </div>
 
         <div class="row align-items-center mb-5" data-aos="fade-right">
@@ -38,7 +38,7 @@
         <div class="row text-center mb-5" data-aos="fade-up">
             <div class="col-md-4">
                 <i class="bi bi-people fs-1 text-primary"></i>
-                <h5 class="mt-3">\u0110ội ngũ trẻ trung</h5>
+                <h5 class="mt-3">Đội ngũ trẻ trung</h5>
                 <p>Nơi hội tụ các sinh viên tài năng đam mê bóng đá.</p>
             </div>
             <div class="col-md-4">
@@ -78,7 +78,7 @@
                 <img src="images/kethop.webp" alt="Vận động viên" class="img-fluid rounded-4 shadow">
             </div>
             <div class="col-md-6 order-md-1">
-                <h3 class="fw-semibold text-info">\u0110ồng hành với tài năng trẻ</h3>
+                <h3 class="fw-semibold text-info">Đồng hành với tài năng trẻ</h3>
                 <p>Blue Eagle tài trợ cho nhiều cầu thủ học đường, giải phong trào...</p>
             </div>
         </div>
