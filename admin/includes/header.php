@@ -33,10 +33,18 @@
                         <li><a class="dropdown-item" href="danhsachtonkho.php">Tồn kho giày</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="themthuonghieu.php">Quản lý thương hiệu</a></li>
-                <li class="nav-item"><a class="nav-link" href="themloaigiay.php">Quản lý loại giày</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button">
+                        Quản lý thương hiệu & loại giày
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="themthuonghieu.php">Thêm thương hiệu</a></li>
+                        <li><a class="dropdown-item" href="themloaigiay.php">Thêm loại giày</a></li>
+                    </ul>
+                </li>
                 <li class="nav-item"><a class="nav-link" href="danhsach_khachhang.php">Quản lý khách hàng</a></li>
                 <li class="nav-item"><a class="nav-link" href="danhsachdonhang.php">Quản lý đơn hàng</a></li>
+                <li class="nav-item"><a class="nav-link" href="thongke.php">Thống kê</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button">
                         Quản lý hồ sơ
