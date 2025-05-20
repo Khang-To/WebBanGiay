@@ -1,36 +1,39 @@
 <?php
-include 'includes/auth_admin.php';
-include 'includes/db.php';
-include 'includes/thongbao.php';
+    include 'includes/auth_admin.php';
+    include 'includes/db.php';
+    include 'includes/thongbao.php';
 
-$admin_id = $_SESSION['admin_id'] ?? null;
+    $admin_id = $_SESSION['admin_id'] ?? null;
 
-if (!$admin_id) {
-    header('Location: dangnhap.php');
-    exit;
-}
+    if (!$admin_id) {
+        header('Location: dangnhap.php');
+        exit;
+    }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $ho_ten = trim($_POST['ho_ten']);
-    $email = trim($_POST['email']);
-    $dia_chi = trim($_POST['dia_chi']);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $ho_ten = trim($_POST['ho_ten']);
+        $email = trim($_POST['email']);
+        $dia_chi = trim($_POST['dia_chi']);
 
-    $stmt = $conn->prepare("UPDATE admin SET ho_ten = ?, email = ?, dia_chi = ? WHERE id = ?");
-    $stmt->bind_param('sssi', $ho_ten, $email, $dia_chi, $admin_id);
+        $stmt = $conn->prepare("UPDATE admin SET ho_ten = ?, email = ?, dia_chi = ? WHERE id = ?");
+        $stmt->bind_param('sssi', $ho_ten, $email, $dia_chi, $admin_id);
+        $stmt->execute();
+
+        $_SESSION['admin_ten'] = $ho_ten;
+        
+        flashMessage('success', 'Cập nhật thông tin thành công!');
+        header('Location: hosoadmin.php');
+        exit;
+    }
+
+    $stmt = $conn->prepare("SELECT ho_ten, email, dia_chi FROM admin WHERE id = ?");
+    $stmt->bind_param('i', $admin_id);
     $stmt->execute();
-    flashMessage('success', 'Cập nhật thông tin thành công!');
-    header('Location: hosoadmin.php');
-    exit;
-}
+    $result = $stmt->get_result();
+    $admin = $result->fetch_assoc();
+    $stmt->close();
 
-$stmt = $conn->prepare("SELECT ho_ten, email, dia_chi FROM admin WHERE id = ?");
-$stmt->bind_param('i', $admin_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$admin = $result->fetch_assoc();
-$stmt->close();
-
-include 'includes/header.php';
+    include 'includes/header.php';
 ?>
 
 <div class="container mt-4">
