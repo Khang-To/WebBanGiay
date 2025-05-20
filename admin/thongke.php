@@ -88,7 +88,7 @@
 
     // 4. Top 5 sản phẩm bán chạy
     $top_sql = "
-        SELECT g.ten_giay, th.ten_thuong_hieu, lg.ten_loai, SUM(ctdh.so_luong_ban) AS tong_so_luong
+        SELECT g.ten_giay, th.ten_thuong_hieu, sg.size, lg.ten_loai, SUM(ctdh.so_luong_ban) AS tong_so_luong
         FROM chi_tiet_don_hang ctdh
         JOIN size_giay sg ON ctdh.size_giay_id = sg.id
         JOIN giay g ON sg.giay_id = g.id
@@ -176,15 +176,17 @@
                             <th>Tên giày</th>
                             <th>Thương hiệu</th>
                             <th>Loại</th>
+                            <th>Size</th>
                             <th>Số lượng</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php while($row = $top_products->fetch_assoc()): ?>
                             <tr>
-                                <td style="max-width: 200px;"><?= htmlspecialchars($row['ten_giay']) ?></td>
+                                <td style="max-width: 220px;"><?= htmlspecialchars($row['ten_giay']) ?></td>
                                 <td><?= htmlspecialchars($row['ten_thuong_hieu']) ?></td>
                                 <td><?= htmlspecialchars($row['ten_loai']) ?></td>
+                                <td><?= htmlspecialchars($row['size'])?></td>
                                 <td><?= $row['tong_so_luong'] ?></td>
                             </tr>
                         <?php endwhile; ?>
