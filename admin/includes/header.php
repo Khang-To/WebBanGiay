@@ -51,7 +51,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="hosoadmin.php">Thông tin cá nhân</a></li>
-                        <li><a class="dropdown-item" href="doimatkhauadmin">Đổi mật khẩu</a></li>
+                        <li><a class="dropdown-item" href="doimatkhauadmin.php">Đổi mật khẩu</a></li>
                     </ul>
                 </li>
             </ul>
